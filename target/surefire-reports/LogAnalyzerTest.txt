@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: LogAnalyzerTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.027 sec <<< FAILURE!
+LogAnalyzerTest.testScriptWithValidLog()  Time elapsed: 0.024 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Script should exit with code 0 for valid log ==> expected: <0> but was: <1>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:563)
+	at LogAnalyzerTest.testScriptWithValidLog(LogAnalyzerTest.java:25)
+

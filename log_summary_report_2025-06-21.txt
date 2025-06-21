@@ -1,5 +1,5 @@
-Log Analysis Report - Fri Jun 20 16:50:41 UTC 2025
-Log File: sample_log.log
+Log Analysis Report - Sat Jun 21 16:55:37 UTC 2025
+Log File: mylog.log
 Total Lines Processed: 4
 Total Error Count: 1
 

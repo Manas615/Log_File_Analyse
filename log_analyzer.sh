@@ -12,7 +12,7 @@ fi
 LOG_FILE="$1"
 
 if [ ! -f "$LOG_FILE" ]; then
-    echo "Error: Log file '$LOG_FILE' does not exist."
+    echo "File not found"
     exit 1
 fi
 
@@ -37,8 +37,8 @@ for keyword in "${ERROR_KEYWORDS[@]}"; do
     ERROR_COUNT=$((ERROR_COUNT + $(grep -c "$keyword" "$LOG_FILE")))
 done
 
-# Extract top 5 error messages (by message frequency)
-ERROR_MESSAGES=$(grep -E "${ERROR_KEYWORDS[*]}" "$LOG_FILE" | \
+# Extract top 5 error messages (lines with ERROR or Failed)
+ERROR_MESSAGES=$(grep -E "${ERROR_KEYWORDS[0]}|${ERROR_KEYWORDS[1]}" "$LOG_FILE" | \
     awk '{for(i=2;i<=NF;i++) printf $i " "; print ""}' | \
     sort | uniq -c | sort -nr | head -n 5)
 
