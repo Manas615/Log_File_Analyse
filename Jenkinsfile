@@ -52,6 +52,19 @@ pipeline {
             }
         }
     }
+	stage('Check for sample_log.log') {
+    steps {
+        script {
+            if (fileExists('sample_log.log')) {
+                echo "sample_log.log exists in workspace."
+                sh 'ls -l sample_log.log'
+                sh 'cat sample_log.log'
+            } else {
+                error("sample_log.log does NOT exist in workspace!")
+            }
+        }
+    }
+}
 
     post {
         always {
