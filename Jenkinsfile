@@ -4,8 +4,21 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clone the repository (if using a Jenkins job with SCM)
                 checkout scm
+            }
+        }
+
+        stage('Check for sample_log.log') {
+            steps {
+                script {
+                    if (fileExists('sample_log.log')) {
+                        echo "sample_log.log exists in workspace."
+                        sh 'ls -l sample_log.log'
+                        sh 'cat sample_log.log'
+                    } else {
+                        error("sample_log.log does NOT exist in workspace!")
+                    }
+                }
             }
         }
 
@@ -27,7 +40,6 @@ pipeline {
             steps {
                 echo 'Running Ansible playbook...'
                 sh 'ansible-playbook -i ansible/inventory ansible/setup.yml -K || true'
-                // The '|| true' allows the pipeline to continue if Ansible prompts for a password or fails due to sudo
             }
         }
 
@@ -52,24 +64,10 @@ pipeline {
             }
         }
     }
-	stage('Check for sample_log.log') {
-    steps {
-        script {
-            if (fileExists('sample_log.log')) {
-                echo "sample_log.log exists in workspace."
-                sh 'ls -l sample_log.log'
-                sh 'cat sample_log.log'
-            } else {
-                error("sample_log.log does NOT exist in workspace!")
-            }
-        }
-    }
-}
 
     post {
         always {
             echo 'Pipeline finished.'
-            // Add archiving or cleanup steps here if needed
         }
     }
 }
