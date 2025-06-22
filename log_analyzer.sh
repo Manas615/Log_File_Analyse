@@ -43,7 +43,8 @@ fi
 
 ARCHIVE_DIR="processed_logs"
 mkdir -p "$ARCHIVE_DIR"
-mv "$LOG_FILE" "$ARCHIVE_DIR/"
+cp "$LOG_FILE" "$ARCHIVE_DIR/"
+rm "$LOG_FILE"
 echo "Log file moved to $ARCHIVE_DIR/"
 
 echo "Log analysis complete. Report saved to $REPORT_FILE."
