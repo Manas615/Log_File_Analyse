@@ -1,3 +1,10 @@
+NO_ARCHIVE=false
+
+if [[ "$1" == "--no-archive" ]]; then
+
+  NO_ARCHIVE=true; shift
+
+fi
 #!/bin/bash
 
 if [ $# -ne 1 ]; then
@@ -43,6 +50,7 @@ fi
 
 ARCHIVE_DIR="processed_logs"
 mkdir -p "$ARCHIVE_DIR"
+if [ "$NO_ARCHIVE" = true ]; then echo "Skipping archive"; else
 cp "$LOG_FILE" "$ARCHIVE_DIR/"
 rm "$LOG_FILE"
 echo "Log file moved to $ARCHIVE_DIR/"
