@@ -8,6 +8,21 @@ pipeline {
             }
         }
 
+        stage('Prepare sample_log.log') {
+            steps {
+                sh '''
+cat > sample_log.log <<EOF
+INFO Start
+ERROR Something failed
+CRITICAL Disk error
+INFO End
+EOF
+'''
+                sh 'ls -l sample_log.log'
+                sh 'cat sample_log.log'
+            }
+        }
+
         stage('Check for sample_log.log') {
             steps {
                 script {
@@ -24,15 +39,19 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building with Maven...'
-                sh 'mvn clean package'
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    echo 'Building with Maven...'
+                    sh 'mvn clean package'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running JUnit tests...'
-                sh 'mvn test'
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    echo 'Running JUnit tests...'
+                    sh 'mvn test'
+                }
             }
         }
 

@@ -1,11 +1,10 @@
-NO_ARCHIVE=false
-
-if [[ "$1" == "--no-archive" ]]; then
-
-  NO_ARCHIVE=true; shift
-
-fi
 #!/bin/bash
+
+NO_ARCHIVE=false
+if [[ "$1" == "--no-archive" ]]; then
+    NO_ARCHIVE=true
+    shift
+fi
 
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <log_file_path>"
@@ -48,12 +47,13 @@ else
     echo "$CRITICAL_EVENTS" >> "$REPORT_FILE"
 fi
 
-ARCHIVE_DIR="processed_logs"
-mkdir -p "$ARCHIVE_DIR"
-if [ "$NO_ARCHIVE" = true ]; then echo "Skipping archive"; else
-cp "$LOG_FILE" "$ARCHIVE_DIR/"
-rm "$LOG_FILE"
-echo "Log file moved to $ARCHIVE_DIR/"
+if [ "$NO_ARCHIVE" = false ]; then
+    ARCHIVE_DIR="processed_logs"
+    mkdir -p "$ARCHIVE_DIR"
+    cp "$LOG_FILE" "$ARCHIVE_DIR/"
+    rm "$LOG_FILE"
+    echo "Log file moved to $ARCHIVE_DIR/"
+fi
 
 echo "Log analysis complete. Report saved to $REPORT_FILE."
 exit 0
