@@ -62,10 +62,25 @@ EOF
             }
         }
 
+        // ADDED: Recreate log file before Log Analysis
+        stage('Prepare for Log Analysis') {
+            steps {
+                sh '''
+cat > sample_log.log <<EOF
+INFO Start
+ERROR Something failed
+CRITICAL Disk error
+INFO End
+EOF
+'''
+            }
+        }
+
         stage('Log Analysis') {
             steps {
                 echo 'Running log analyzer script...'
-                sh './log_analyzer.sh sample_log.log'
+                // ADDED: --no-archive flag
+                sh './log_analyzer.sh --no-archive sample_log.log'
             }
         }
 
@@ -76,10 +91,25 @@ EOF
             }
         }
 
+        // ADDED: Recreate log file before Docker Run
+        stage('Prepare for Docker Run') {
+            steps {
+                sh '''
+cat > sample_log.log <<EOF
+INFO Start
+ERROR Something failed
+CRITICAL Disk error
+INFO End
+EOF
+'''
+            }
+        }
+
         stage('Docker Run') {
             steps {
                 echo 'Running Docker container...'
-                sh 'docker run --rm -v $(pwd)/sample_log.log:/app/sample_log.log log-analyzer:latest ./log_analyzer.sh sample_log.log'
+                // ADDED: --no-archive flag
+                sh 'docker run --rm -v $(pwd)/sample_log.log:/app/sample_log.log log-analyzer:latest ./log_analyzer.sh --no-archive sample_log.log'
             }
         }
     }
