@@ -1,0 +1,10 @@
+Log Analysis Report - Sun Jun 22 06:50:05 UTC 2025
+Log File: samplelog.log
+Total Lines Processed: 4
+Total Error Count: 1
+
+Top 5 Error Messages:
+      1 Something failed 
+
+Critical Events (Line Numbers):
+3:CRITICAL Disk error
